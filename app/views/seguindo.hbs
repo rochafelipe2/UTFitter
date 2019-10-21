@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<!--
+	Visualize by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Seguindo</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/style/assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+                      <div class="row">
+						<div class="row" style="float:right">
+                            <h3><a href="/home">Home</a></h3> 
+                            <h3><a href="/seguidores">Seguidores</a></h3> 
+                            
+                        </div>
+					  </div>
+
+					</header>
+
+				<!-- Main -->
+					<section id="main">
+                        <div class="row"><h1>Seguindo:</h1></div>
+				  {{#each seguidores}}
+                        <div class="row">
+					       <span  class="avatar" style="text-align:left; padding:2px;"><img src="{{avatar}}" alt="" /></span>
+							 <span style="text-align:right;">{{nome}}</span><br>
+							 <span style="text-align:right"><strong>{{email}}</strong></span>
+                            
+						   </div><br>
+						   <div style="border-top: solid 1px rgba(255, 255, 255, 0.25);"></div>
+                     {{/each}}
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="/style/assets/js/jquery.min.js"></script>
+			<script src="/style/assets/js/jquery.poptrox.min.js"></script>
+			<script src="/style/assets/js/skel.min.js"></script>
+			<script src="/style/assets/js/main.js"></script>
+
+	</body>
+</html>

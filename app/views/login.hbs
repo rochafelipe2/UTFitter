@@ -10,6 +10,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/style/assets/css/main.css" />
+		<link rel="stylesheet" href="/alertify/css/alertify.css">
+		<link rel="stylesheet" href="/alertify/css/themes/default.css">
 	</head>
 	<body>
 
@@ -22,16 +24,22 @@
 						<h1> <strong>Bem vindo</strong> Este é o UTFitter</h1>
 
                         <div class="jumbotron">
+							<form action="/login" method="POST" accept-charset="utf-8">
                             <div class="form-group">
+								<div>
+									<input type="hidden" name="status" id="status">
+								</div>
                                 <div class="form-control">
-                                E-mail<input type="text">
+                                E-mail<input type="email" name="email" id="email">
                             </div>
                             <div class="form-control">
-                                Senha<input type="text">
+                                Senha<input type="password" name="senha" id="senha">
                             </div>
-                             <div class="form-control">
-                                <input type="submit" value="Logar">
+                            <div class="form-control">
+                                <input type="submit" value="Logar" onclick="return validarLogin()">
                             </div>
+							</form>
+							 
                             <div class="form-control">
                                 <br>
                         <ul class="icons">
@@ -67,6 +75,50 @@
 			<script src="/style/assets/js/jquery.poptrox.min.js"></script>
 			<script src="/style/assets/js/skel.min.js"></script>
 			<script src="/style/assets/js/main.js"></script>
+			<script src="/alertify/alertify.js"></script>
+			<script src="/alertify/alertify.min.js"></script>
+	
+	<script type="text/javascript">
+		 
+		  $(document).ready(function () {
+            $(function () {
+				configureModal();
+				var status = "{{status}}";
+				
+				if(status != "")
+				{
+					if(status != "false"){
+					alertify.success("Usuário logado");
+					}else{
+					alertify.error("Usuário não logado");
+					}
+				}
+			
+            });
+
+			
+        });
+
+		function configureModal(){
+			alertify.confirm().setHeader("Atenção");
+			alertify.alert().setHeader("Atenção");;
+		}
+
+		/*Function methods*/
+
+			function validarLogin(){
+			
+			if(!document.getElementById("email").value || !document.getElementById("senha").value)
+			{
+				alertify.error("Email e senha são obrigatórios");
+				return false;
+			}else{
+				return true;
+			}
+				
+
+		}
+	</script>
 
 	</body>
 </html>

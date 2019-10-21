@@ -18,24 +18,46 @@
 
 				<!-- Header -->
 					<header id="header">
+						<div class="row">
+							<div class="row" style="float:right">
+								<h3><a href="/explorar">Explorar</a></h3> 
+								<h3><a href="/seguidores">Seguidores</a></h3> 
+								<h3><a href="/seguindo">Seguindo</a></h3> 
+							</div>
+						</div>
 						<span class="avatar"><img src="/style/images/avatar.jpg" alt="" /></span>
 						<h1> <strong>Felipe Rocha</strong></h1>
-
-
-
-
-						
+						<br>
+						<br>
+						<span>No que está pensando?</span>
+						<form action="/publicar" method="POST" accept-charset="utf-8">
+						<input type="hidden" name="autor" value="{{autor}}">
+						<textarea name="texto" id="publish" maxlength="130"></textarea>
+						<div style="text-align: left;">
+							<br>
+							<input type="submit" name="publicar" value="Publicar" id="publicar">
+						</div>
+						</form>
 					</header>
 
 				<!-- Main -->
 					<section id="main">
-
+						
+						 {{#each publicacoes}}
+                           <div class="row" style="margin-top: 15px;">
+							<span  class="avatar" style="text-align:left; padding:2px;"><img src="/style/images/avatar.jpg" alt="" /></span>
+							<span style="text-align:right;">{{texto}}</span><br>
+							<span style="text-align:right"><strong>{{data}}</strong></span>
+						   </div><br>
+						   <div style="border-top: solid 1px rgba(255, 255, 255, 0.25);"></div>
+                         {{/each}}
+						
+						
 
 					</section>
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p>&copy; Untitled. All rights reserved. Design: <a href="http://templated.co">TEMPLATED</a>. Demo Images: <a href="http://unsplash.com">Unsplash</a>.</p>
 					</footer>
 
 			</div>

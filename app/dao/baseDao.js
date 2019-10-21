@@ -1,5 +1,5 @@
 let client = require('mongodb').MongoClient;
-let config = require('./config');
+let config = require('./Config');
 let connection = client.connect(config.uri, config.options).then((connection) => {
     return {
         db: connection.db(config.db),
@@ -9,7 +9,7 @@ let connection = client.connect(config.uri, config.options).then((connection) =>
     };
 });
 
-module.exports = class DAO {
+module.exports = class BaseDao {
     save(){
         if(this._id){
             return connection.then((connection) => {
