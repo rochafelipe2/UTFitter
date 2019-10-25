@@ -42,7 +42,7 @@ let express = require('express'),
 
             if(usuario[0])
             {
-                request.session.user = usuario[0].email;
+                request.session.user = usuario[0];
                 response.redirect("/home");
             }else{
                 response.render('login', {status: "false"});
@@ -74,7 +74,7 @@ let express = require('express'),
 
     app.get('/cadastro',(request, response) => {
     
-        importarUsuarios();
+        //importarUsuarios();
         response.render('cadastro');
     });
 
@@ -93,10 +93,25 @@ let express = require('express'),
 
     app.get('/home',(request, response, next) => {
         
+        var publicacoes = [];
         if(request.session.user){
-            Publicacao.find({autor:request.session.user}).then((publicacoes) =>{
-                response.render('home', {autor:request.session.user, publicacoes: publicacoes});
+             Publicacao.find({"autor.email":request.session.user.email}).then((_publicacoes) =>{
+                 
+                //TODO: Felipe rocha - adicionar as publicacoes de quem sigo.
+                response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: _publicacoes});
+
             });
+
+        //     Seguidor.find({"seguidor.email": request.session.user.email}).then((seguindo) =>{
+        //         for(var i=0; i< seguindo.length; i++)
+        //         {
+        //             Publicacao.find({"autor.email":seguindo[i].email}).then((_publicacoes) =>{
+        //                 publicacoes.push(_publicacoes);
+        //             });
+        //         }
+        // });
+        
+
         }else{
             response.redirect('/login');
         }
@@ -107,9 +122,11 @@ let express = require('express'),
     app.post('/publicar',(request,response) => {
         
         if(request.session.user){
+           
+           
             var data = {
                 texto: request.body.texto,
-                autor: request.body.autor,
+                autor: request.session.user,
                 data: getDateTimeNow()
             }
     
@@ -125,7 +142,7 @@ let express = require('express'),
     app.get('/seguidores',(request, response) => {
         
         if(request.session.user){
-            Seguidor.find({email_usuario:request.session.user}).then((seguidores) =>{
+            Seguidor.find({"usuario.email": request.session.user.email}).then((seguidores) =>{
                 response.render('seguidores', {seguidores: seguidores});
             });
         }else{
@@ -137,7 +154,7 @@ let express = require('express'),
     app.get('/seguindo',(request, response) => {
         
         if(request.session.user){
-            Seguidor.find({email_seguidor:request.session.user}).then((seguidores) =>{
+            Seguidor.find({"seguidor.email":request.session.user.email}).then((seguidores) =>{
                 response.render('seguindo', {seguidores: seguidores});
             });
         }else{
@@ -149,6 +166,9 @@ let express = require('express'),
     app.get('/explorar',(request, response) => {
         
         Usuario.find().then((people) =>{
+
+            people.rem
+
             response.render('explorar', {people: people});
         });
     });
@@ -157,26 +177,35 @@ let express = require('express'),
         
         if(request.session && request.session.user){
             var mailSeguir = request.url.split("?")[1];
-            var data = {};
+            var data = {usuario: {}, 
+                        seguidor: {},
+                        };
+
                 Usuario.find({email: mailSeguir}).then((user) =>{
-                    data.usuario = {nome:user[0].nome, email:user[0].email, _id:user[0]._id, avatar: user[0].avatar}; 
-                    data.email_usuario = user[0].email;
+                    
+                    data.usuario = user[0]; 
+                    
+                    Usuario.find({email: request.session.user.email}).then((_seguidor) =>{
+                    
+                        data.seguidor = _seguidor[0];
+                        
+                        var seguidorService = new Seguidor(data);
+                        seguidorService.save();
+                    });
+                }).catch((error) =>{
+                    console.log(error);
                 });
                 
-                Usuario.find({email: request.session.user}).then((user) =>{
-                    data.seguidor = {nome:user[0].nome, email:user[0].email, _id:user[0]._id, avatar: user[0].avatar};
-                    data.email_seguidor = user[0].email;
-                });
-                console.log(data);
-                var seguidorService = new Seguidor(data);
-                seguidorService.save();
+              
+                
+               
             response.redirect('/explorar');
         }else{
             response.redirect('/login');
         }
     });
 
-    app.post('/logout',(request,response) => {
+    app.get('/logout',(request,response) => {
         request.session.user = null;
         response.redirect('/login');
     });

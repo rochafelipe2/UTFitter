@@ -23,15 +23,16 @@
 								<h3><a href="/explorar">Explorar</a></h3> 
 								<h3><a href="/seguidores">Seguidores</a></h3> 
 								<h3><a href="/seguindo">Seguindo</a></h3> 
+								<h3><a href="/logout">Logout</a></h3> 
 							</div>
 						</div>
-						<span class="avatar"><img src="/style/images/avatar.jpg" alt="" /></span>
-						<h1> <strong>Felipe Rocha</strong></h1>
+						<span class="avatar"><img src="{{usuario.avatar}}" alt="" /></span>
+						<h1> <strong>{{usuario.nome}}</strong></h1>
 						<br>
 						<br>
 						<span>No que está pensando?</span>
 						<form action="/publicar" method="POST" accept-charset="utf-8">
-						<input type="hidden" name="autor" value="{{autor}}">
+						<input type="hidden" name="autor" value="{{usuario.email}}">
 						<textarea name="texto" id="publish" maxlength="130"></textarea>
 						<div style="text-align: left;">
 							<br>
@@ -45,7 +46,7 @@
 						
 						 {{#each publicacoes}}
                            <div class="row" style="margin-top: 15px;">
-							<span  class="avatar" style="text-align:left; padding:2px;"><img src="/style/images/avatar.jpg" alt="" /></span>
+							<span  class="avatar" style="text-align:left; padding:2px;"><img src="{{autor.avatar}}" alt="" /></span>
 							<span style="text-align:right;">{{texto}}</span><br>
 							<span style="text-align:right"><strong>{{data}}</strong></span>
 						   </div><br>

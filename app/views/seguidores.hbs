@@ -30,20 +30,16 @@
 				<!-- Main -->
 					<section id="main">
                         <div class="row"><h1>Seguidores:</h1></div>
-						  <div class="row">
-					       <span  class="avatar" style="text-align:left; padding:2px;"><img src="/style/images/avatar.jpg" alt="" /></span>
-							 <span style="text-align:right;">Felipe</span><br>
-							 <span style="text-align:right"><strong>xxx</strong></span>
-						   </div><br>
-						   <div style="border-top: solid 1px rgba(255, 255, 255, 0.25);"></div>
-                        
+						     
+				  {{#each seguidores}}
                         <div class="row">
-					       <span  class="avatar" style="text-align:left; padding:2px;"><img src="/style/images/avatar.jpg" alt="" /></span>
-							 <span style="text-align:right;">Felipe</span><br>
-							 <span style="text-align:right"><strong>xxx</strong></span>
+					       <span  class="avatar" style="text-align:left; padding:2px;"><img src="{{seguidor.avatar}}" alt="" /></span>
+							 <span style="text-align:right;">{{seguidor.nome}}</span><br>
+							 <span style="text-align:right"><strong>{{seguidor.email}}</strong></span>
+                            
 						   </div><br>
 						   <div style="border-top: solid 1px rgba(255, 255, 255, 0.25);"></div>
-                        </div>
+                     {{/each}}
 					</section>
 
 				<!-- Footer -->
