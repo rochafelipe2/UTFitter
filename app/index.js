@@ -8,6 +8,7 @@ let express = require('express'),
     var axios = require('axios');
     var session = require('express-session');
 
+
     app.set('views', path.join(__dirname, '/views'));
     app.use(express.static(__dirname + '/public'));
     app.set('view engine', 'hbs');
@@ -18,6 +19,8 @@ let express = require('express'),
         saveUninitialized: true,
         cookie:{secure:false}
     }));
+    
+
 
     app.get('/',(request, response) => {
         // popup.alert({
@@ -27,6 +30,7 @@ let express = require('express'),
     });
 
     app.get('/login',(request, response) => {
+     
         if(request.session.user){
             response.redirect("/home");
         }else{
@@ -82,35 +86,65 @@ let express = require('express'),
         var data = {
             nome: request.body.nome,
             email: request.body.email,
-            senha: request.body.senha
+            senha: request.body.senha,
+            avatar: "/style/images/avatar.jpg"
         }
-        var usuarioService = new Usuario(data);
-        usuarioService.save();
 
-        response.redirect("/usuarios");
+        Usuario.find({email: data.email}).then((usuario) =>{
+            if(usuario[0]){
+                response.render("cadastro",{serverMessage:"Usuário existente"})
+            }else{
+                var usuarioService = new Usuario(data);
+                usuarioService.save();
+                response.render("login", {serverMessage: "Usuário cadastrado com sucesso!"});
+            }
+        });
+
+        
     
     });
 
-    app.get('/home',(request, response, next) => {
+    app.get('/home', async (request, response, next) => {
         
         var publicacoes = [];
         if(request.session.user){
-             Publicacao.find({"autor.email":request.session.user.email}).then((_publicacoes) =>{
-                 
-                //TODO: Felipe rocha - adicionar as publicacoes de quem sigo.
-                response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: _publicacoes});
-
+            
+            var allPublicacoes = [];
+            var minhasPublicacoes = await  Publicacao.find({"autor.email":request.session.user.email}).then((_publicacoes) =>{
+                 return _publicacoes;
             });
+            
+            var outrasPublicacoes = [];
+            
+            var seguindo = await Seguidor.find({"seguidor.email": request.session.user.email}).then((_seguindo)=>{
+                return _seguindo;
+            });
+          
 
-        //     Seguidor.find({"seguidor.email": request.session.user.email}).then((seguindo) =>{
-        //         for(var i=0; i< seguindo.length; i++)
-        //         {
-        //             Publicacao.find({"autor.email":seguindo[i].email}).then((_publicacoes) =>{
-        //                 publicacoes.push(_publicacoes);
-        //             });
-        //         }
-        // });
-        
+            for(var i=0; i < seguindo.length; i++){  
+                var publicacoesSeguindo = await Publicacao.find({"autor.email":seguindo[i].usuario.email}).then((_publicacoes) =>{
+                    return _publicacoes;
+                })
+                
+                for(var j=0; j < publicacoesSeguindo.length; j++)
+                {
+                    minhasPublicacoes.push(publicacoesSeguindo[j]); 
+                }
+            }
+            
+            minhasPublicacoes.sort(function (a, b) {
+                    if (a.data < b.data) {
+                      return 1;
+                    }
+                    if (a.data > b.data) {
+                      return -1;
+                    }
+                    // a must be equal to b
+                    return 0;
+                  });
+
+
+            response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes});
 
         }else{
             response.redirect('/login');
@@ -167,39 +201,47 @@ let express = require('express'),
         
         Usuario.find().then((people) =>{
 
-            people.rem
-
             response.render('explorar', {people: people});
         });
     });
 
-    app.get('/seguir',(request,response) => {
-        
+    app.get('/seguir',async (request,response) => {
+        var serverMessage = "";
         if(request.session && request.session.user){
             var mailSeguir = request.url.split("?")[1];
-            var data = {usuario: {}, 
-                        seguidor: {},
-                        };
+            var mail =  request.session.user.email;
+
+            var alreadyMatch = await Seguidor.find({$and:[{"seguidor.email":mail},{ "usuario.email":mailSeguir}]}).then((s) =>{
+                return s;
+            });
+            if(alreadyMatch.length>0){
+                serverMessage = "Você já segue esta pessoa.";
+            }else{
+                var data = {usuario: {}, 
+                seguidor: {},
+                };
 
                 Usuario.find({email: mailSeguir}).then((user) =>{
-                    
-                    data.usuario = user[0]; 
-                    
-                    Usuario.find({email: request.session.user.email}).then((_seguidor) =>{
-                    
-                        data.seguidor = _seguidor[0];
-                        
-                        var seguidorService = new Seguidor(data);
-                        seguidorService.save();
-                    });
-                }).catch((error) =>{
-                    console.log(error);
-                });
+            
+            data.usuario = user[0]; 
+            serverMessage = "Boa, agora você segue: "+ mailSeguir;
+            Usuario.find({email: request.session.user.email}).then((_seguidor) =>{
+            
+                data.seguidor = _seguidor[0];
                 
-              
+                var seguidorService = new Seguidor(data);
+                seguidorService.save();
                 
-               
-            response.redirect('/explorar');
+            });
+        }).catch((error) =>{
+            console.log(error);
+        });
+            }
+            var people  = await Usuario.find().then((people) =>{
+
+                return people;
+            });
+            response.render('explorar',{people: people,serverMessage:serverMessage});
         }else{
             response.redirect('/login');
         }
@@ -230,7 +272,7 @@ let express = require('express'),
 
     function importarUsuarios(){
         axios
-        .get('https://randomuser.me/api/?nat=br&results=10')
+        .get('https://randomuser.me/api/?nat=br&results=32')
         .then(response =>{
           const {results} = response.data;
           

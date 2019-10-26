@@ -10,6 +10,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/style/assets/css/main.css" />
+		<link rel="stylesheet" href="/alertify/css/alertify.css">
+		<link rel="stylesheet" href="/alertify/css/themes/default.css">
 	</head>
 	<body>
 
@@ -49,6 +51,7 @@
 
 				<!-- Footer -->
 					<footer id="footer">
+						<p>&copy; UTFitter. O twitter da UTFPR: <a href="http://utfpr.edu.br">UTFPR</a></p>
 					</footer>
 
 			</div>
@@ -58,6 +61,32 @@
 			<script src="/style/assets/js/jquery.poptrox.min.js"></script>
 			<script src="/style/assets/js/skel.min.js"></script>
 			<script src="/style/assets/js/main.js"></script>
+				<script src="/alertify/alertify.js"></script>
+			<script src="/alertify/alertify.min.js"></script>
+	<script type="text/javascript">
+		 
+		  $(document).ready(function () {
+              
+            $(function () {
+				configureModal();
 
+				 var serverMessage = "{{serverMessage}}";
+
+				if(serverMessage){
+					if(serverMessage === "Você já segue esta pessoa."){
+						alertify.warning(serverMessage);
+					}else{
+						alertify.success(serverMessage);
+					}
+				}
+            });
+
+			
+        });
+		function configureModal(){
+			alertify.confirm().setHeader("Atenção");
+			alertify.alert().setHeader("Atenção");;
+		}
+		</script>
 	</body>
 </html>

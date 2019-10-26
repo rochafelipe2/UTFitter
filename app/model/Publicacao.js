@@ -10,9 +10,9 @@ module.exports = class Publicacao extends BaseDao {
         this.collection = 'publicacoes'
     }
 
-    static find(query ={}, limit){      
-        return super.find(query,{nome:1},limit,'publicacoes').then((results) => {
-            return results.map((publicacao) => new Publicacao(publicacao))
+     static find(query ={}, limit){      
+        return  super.find(query,{nome:1},limit,'publicacoes').then((results) => {
+            return  results.map((publicacao) => new Publicacao(publicacao))
         });
     }
  

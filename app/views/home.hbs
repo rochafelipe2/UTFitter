@@ -10,6 +10,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/style/assets/css/main.css" />
+		<link rel="stylesheet" href="/alertify/css/alertify.css">
+		<link rel="stylesheet" href="/alertify/css/themes/default.css">
 	</head>
 	<body>
 
@@ -33,10 +35,10 @@
 						<span>No que está pensando?</span>
 						<form action="/publicar" method="POST" accept-charset="utf-8">
 						<input type="hidden" name="autor" value="{{usuario.email}}">
-						<textarea name="texto" id="publish" maxlength="130"></textarea>
+						<textarea name="texto" id="publish" maxlength="140"></textarea>
 						<div style="text-align: left;">
 							<br>
-							<input type="submit" name="publicar" value="Publicar" id="publicar">
+							<input type="submit" name="publicar" value="Publicar" id="publicar" onclick="return validarPost()">
 						</div>
 						</form>
 					</header>
@@ -59,6 +61,7 @@
 
 				<!-- Footer -->
 					<footer id="footer">
+						<p>&copy; UTFitter. O twitter da UTFPR: <a href="http://utfpr.edu.br">UTFPR</a></p>
 					</footer>
 
 			</div>
@@ -68,6 +71,26 @@
 			<script src="/style/assets/js/jquery.poptrox.min.js"></script>
 			<script src="/style/assets/js/skel.min.js"></script>
 			<script src="/style/assets/js/main.js"></script>
+			<script src="/alertify/alertify.js"></script>
+			<script src="/alertify/alertify.min.js"></script>
+			<script type="text/javascript">
+ 			$(document).ready(function () {
+              
+            	$(function () {
+					
+				});
+ 			});
+
+			function validarPost(){
+				var post = document.getElementById("publish").value;
+
+				if(!post){
+					alertify.error("Post não pode ser em branco.");
+					return false;
+				} 
+				return true;
+			}
+			</script>
 
 	</body>
 </html>

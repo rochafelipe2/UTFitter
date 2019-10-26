@@ -21,9 +21,9 @@ module.exports = class BaseDao {
         });
     }
 
-    static find (query={}, sort={}, limit = 10, collection){
-        return connection.then((connection) => {  
-            return connection.db.collection(collection).find(query).sort(sort).limit(limit).toArray();
+      static find (query={}, sort={}, limit = 100, collection){
+        return   connection.then((connection) => {  
+            return  connection.db.collection(collection).find(query).sort(sort).limit(limit).toArray();
         });
     }
 };

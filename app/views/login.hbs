@@ -66,12 +66,12 @@
 				<!-- Main -->
 					<section id="main">
 
-
+			
 					</section>
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p>&copy; Untitled. All rights reserved. Design: <a href="http://templated.co">TEMPLATED</a>. Demo Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+						<p>&copy; UTFitter. O twitter da UTFPR: <a href="http://utfpr.edu.br">UTFPR</a></p>
 					</footer>
 
 			</div>
@@ -98,6 +98,12 @@
 					}else{
 					alertify.error("Usuário não logado");
 					}
+				}
+
+				 var serverMessage = "{{serverMessage}}";
+
+				if(serverMessage){
+					alertify.success(serverMessage);
 				}
 			
             });
