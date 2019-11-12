@@ -4,6 +4,7 @@ let express = require('express'),
     Usuario = require('./model/Usuario'),
     Publicacao = require('./model/Publicacao'),
     Seguidor = require('./model/Seguidor'),
+    Util = require('./public/Util')
     app = express();
     var axios = require('axios');
     var session = require('express-session');
@@ -78,7 +79,7 @@ let express = require('express'),
 
     app.get('/cadastro',(request, response) => {
     
-        //importarUsuarios();
+        importarUsuarios();
         response.render('cadastro');
     });
 
@@ -161,7 +162,7 @@ let express = require('express'),
             var data = {
                 texto: request.body.texto,
                 autor: request.session.user,
-                data: getDateTimeNow()
+                data: Util.getDateTimeNow()
             }
     
             var publicacaoService = new Publicacao(data);
@@ -199,7 +200,7 @@ let express = require('express'),
 
     app.get('/explorar',(request, response) => {
         
-        Usuario.find().then((people) =>{
+        Usuario.find({email:{$ne:request.session.user.email}}).then((people) =>{
 
             response.render('explorar', {people: people});
         });
@@ -253,22 +254,7 @@ let express = require('express'),
     });
     
     
-    function getDateTimeNow(){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var hh = today.getHours();
-        var min = today.getMinutes();
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        } 
-        if (mm < 10) {
-            mm = '0' + mm;
-        } 
-        var today = dd + '/' + mm + '/' + yyyy + " - "+ hh + ":" + min ;
-        return today;
-    }
+
 
     function importarUsuarios(){
         axios
