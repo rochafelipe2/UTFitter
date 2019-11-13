@@ -1,7 +1,7 @@
 let express = require('express'),
     http = require('http'),
     path = require('path'),
-    Usuario = require(path.join(__dirname,'/app/model/Usuario')),
+    Usuario = require(path.join(__dirname,'/model/Usuario')),
     Publicacao = require(path.join(__dirname,'/app/model/Publicacao')),
     Seguidor = require(path.join(__dirname,'/app/model/Seguidor')),
     Util = require(path.join(__dirname,'/app/public/Util'))
