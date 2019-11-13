@@ -1,10 +1,10 @@
 let express = require('express'),
     http = require('http'),
     path = require('path'),
-    Usuario = require('/model/Usuario'),
-    Publicacao = require('/model/Publicacao'),
-    Seguidor = require('/model/Seguidor'),
-    Util = require('/public/Util')
+    Usuario = require(path.join(__dirname,'/app/model/Usuario')),
+    Publicacao = require(path.join(__dirname,'/app/model/Publicacao')),
+    Seguidor = require(path.join(__dirname,'/app/model/Seguidor')),
+    Util = require(path.join(__dirname,'/app/public/Util'))
     app = express();
     var axios = require('axios');
     var session = require('express-session');
