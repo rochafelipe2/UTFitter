@@ -314,4 +314,5 @@ let express = require('express'),
     //     console.log('sai method');
     // });
 
-    http.createServer(app).listen(3001);
+    var porta = process.env.PORT || 8080;
+    http.createServer(app).listen(porta);
