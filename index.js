@@ -1,7 +1,7 @@
 let express = require('express'),
     http = require('http'),
     path = require('path'),
-    Usuario = require('/model/Usuario'),
+    Usuario = require('app/model/Usuario'),
     Publicacao = require('/model/Publicacao'),
     Seguidor = require('/model/Seguidor'),
     Util = require('/public/Util')
