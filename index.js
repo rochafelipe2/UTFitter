@@ -75,6 +75,7 @@ let express = require('express'),
 
             response.render('usuarios', {usuarios: usuarios});
         });
+
     });
 
     app.get('/cadastro',(request, response) => {
