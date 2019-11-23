@@ -73,7 +73,8 @@ let express = require('express'),
                 }
             }
 
-            response.render('usuarios', {usuarios: usuarios});
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify({ usuarios }));
         });
 
     });
