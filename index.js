@@ -21,7 +21,10 @@ let express = require('express'),
         cookie:{secure:false}
     }));
     
-
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        next();
+      });
 
     app.get('/',(request, response) => {
         // popup.alert({
