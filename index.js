@@ -149,8 +149,9 @@ let express = require('express'),
                     return 0;
                   });
 
-
-            response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes});
+                  response.setHeader('Content-Type', 'application/json');
+                  response.end(JSON.stringify({usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes}));
+                  //response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes});
 
         }else{
             response.redirect('/login');
