@@ -84,7 +84,7 @@ let express = require('express'),
 
     app.get('/cadastro',(request, response) => {
     
-        importarUsuarios();
+        //importarUsuarios();
         response.render('cadastro');
     });
 
