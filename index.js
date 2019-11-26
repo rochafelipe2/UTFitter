@@ -117,7 +117,7 @@ let express = require('express'),
             
             var allPublicacoes = [];
             var user = await Usuario.find({email:request.query.email}).then((_usuario) => {
-                return _usuario;
+                return _usuario[0];
             })
 
             var minhasPublicacoes = await  Publicacao.find({"autor.email":request.query.email}).then((_publicacoes) =>{
