@@ -168,10 +168,13 @@ let express = require('express'),
         
         if(request.session.user){
            
+            var user = Usuario.find({email:request.body.autor}).then((_user)=>{
+                return _user[0];
+            })
            
             var data = {
                 texto: request.body.texto,
-                autor: request.session.user,
+                autor: user,
                 data: Util.getDateTimeNow()
             }
     
