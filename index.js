@@ -166,7 +166,7 @@ let express = require('express'),
 
     app.post('/publicar',(request,response) => {
         
-        if(request.session.user){
+        if(request.body.autor){
            
             var user = Usuario.find({email:request.body.autor}).then((_user)=>{
                 return _user[0];
