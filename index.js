@@ -205,7 +205,7 @@ let express = require('express'),
 
     app.get('/explorar',(request, response) => {
         
-        Usuario.find({email:{$ne:request.session.user.email}}).then((people) =>{
+        Usuario.find({email:{$ne:'lipdiso@gmail.com'}}).then((people) =>{
 
             response.setHeader('Content-Type', 'application/json');
             response.end(JSON.stringify({ people }));
