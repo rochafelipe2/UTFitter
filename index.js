@@ -207,7 +207,8 @@ let express = require('express'),
         
         Usuario.find({email:{$ne:request.session.user.email}}).then((people) =>{
 
-            response.render('explorar', {people: people});
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify({ people }));
         });
     });
 
