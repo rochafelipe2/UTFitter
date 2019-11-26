@@ -116,7 +116,7 @@ let express = require('express'),
         if(request.query.email == 'lipdiso@gmail.com'){
             
             var allPublicacoes = [];
-            var user = await Usuario.find({}).then((_usuario) => {
+            var user = await Usuario.find({email:request.query.email}).then((_usuario) => {
                 return _usuario;
             })
 
