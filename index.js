@@ -113,16 +113,20 @@ let express = require('express'),
     app.get('/home', async (request, response, next) => {
         
         var publicacoes = [];
-        if(request.session.user){
+        if(request.query.email == 'lipdiso@gmail.com'){
             
             var allPublicacoes = [];
-            var minhasPublicacoes = await  Publicacao.find({"autor.email":request.session.user.email}).then((_publicacoes) =>{
+            var user = await Usuario.find({}).then((_usuario) => {
+                return _usuario;
+            })
+
+            var minhasPublicacoes = await  Publicacao.find({"autor.email":request.query.email}).then((_publicacoes) =>{
                  return _publicacoes;
             });
             
             var outrasPublicacoes = [];
             
-            var seguindo = await Seguidor.find({"seguidor.email": request.session.user.email}).then((_seguindo)=>{
+            var seguindo = await Seguidor.find({"seguidor.email": request.query.email}).then((_seguindo)=>{
                 return _seguindo;
             });
           
@@ -150,7 +154,7 @@ let express = require('express'),
                   });
 
                   response.setHeader('Content-Type', 'application/json');
-                  response.end(JSON.stringify({usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes}));
+                  response.end(JSON.stringify({usuario:{nome: user.nome, email: user.email , avatar: user.avatar}, publicacoes: minhasPublicacoes}));
                   //response.render('home', {usuario:{nome: request.session.user.nome, email: request.session.user.email , avatar: request.session.user.avatar}, publicacoes: minhasPublicacoes});
 
         }else{
