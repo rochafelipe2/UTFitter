@@ -193,7 +193,7 @@ let express = require('express'),
         if(true){
             Seguidor.find({"usuario.email":"lipdiso@gmail.com"}).then((seguidores) =>{
                 //response.render('seguidores', {seguidores: seguidores});
-                response.json(seguidores);
+                response.json({seguidores});
             });
         }else{
             response.redirect('/login');
@@ -206,7 +206,7 @@ let express = require('express'),
         if(true){
             Seguidor.find({"seguidor.email":"lipdiso@gmail.com"}).then((seguidores) =>{
                 //response.render('seguindo', {seguidores: seguidores});
-                response.json(seguidores);
+                response.json({seguidores});
             });
         }else{
             response.redirect('/login');
