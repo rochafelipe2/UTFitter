@@ -181,6 +181,7 @@ let express = require('express'),
             var publicacaoService = new Publicacao(data);
             publicacaoService.save();
             response.redirect("/home");
+           
         }else{
             response.redirect('/login');
         }
@@ -189,9 +190,10 @@ let express = require('express'),
     
     app.get('/seguidores',(request, response) => {
         
-        if(request.session.user){
-            Seguidor.find({"usuario.email": request.session.user.email}).then((seguidores) =>{
-                response.render('seguidores', {seguidores: seguidores});
+        if(true){
+            Seguidor.find({"usuario.email":"lipdiso@gmail.com"}).then((seguidores) =>{
+                //response.render('seguidores', {seguidores: seguidores});
+                response.json(seguidores);
             });
         }else{
             response.redirect('/login');
@@ -201,9 +203,10 @@ let express = require('express'),
 
     app.get('/seguindo',(request, response) => {
         
-        if(request.session.user){
-            Seguidor.find({"seguidor.email":request.session.user.email}).then((seguidores) =>{
-                response.render('seguindo', {seguidores: seguidores});
+        if(true){
+            Seguidor.find({"seguidor.email":"lipdiso@gmail.com"}).then((seguidores) =>{
+                //response.render('seguindo', {seguidores: seguidores});
+                response.json(seguidores);
             });
         }else{
             response.redirect('/login');
